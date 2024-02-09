@@ -1,5 +1,4 @@
 import { ThemeOverride, extendBaseTheme } from "@chakra-ui/react";
-import { EditorTheme } from "@molecules/Editor";
 
 import { breakpoints, colors, fontSizes, fonts, shadows } from "./foundations";
 import { lineHeights } from "./foundations/lineHeights";
@@ -14,9 +13,7 @@ export const themeOverrides: ThemeOverride = {
   fonts,
   fontSizes,
   shadows,
-  components: {
-    Editor: EditorTheme,
-  },
+  components: {},
   lineHeights,
 };
 

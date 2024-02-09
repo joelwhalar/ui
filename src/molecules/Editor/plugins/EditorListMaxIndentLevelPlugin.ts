@@ -5,11 +5,11 @@ import {
   COMMAND_PRIORITY_HIGH,
   INDENT_CONTENT_COMMAND,
   RangeSelection,
-} from 'lexical';
-import { useEffect } from 'react';
+} from "lexical";
+import { useEffect } from "react";
 
-import { $getListDepth, $isListItemNode, $isListNode } from '@lexical/list';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { $getListDepth, $isListItemNode, $isListNode } from "@lexical/list";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
 function getElementNodesInSelection(selection: RangeSelection) {
   const nodesInSelection = selection.getNodes();
@@ -22,7 +22,7 @@ function getElementNodesInSelection(selection: RangeSelection) {
   }
 
   return new Set(
-    nodesInSelection.map((n) => ($isElementNode(n) ? n : n.getParentOrThrow()))
+    nodesInSelection.map((n) => ($isElementNode(n) ? n : n.getParentOrThrow())),
   );
 }
 
@@ -37,14 +37,15 @@ function isIndentPermitted(maxDepth: number) {
 
   let totalDepth = 0;
 
-  for (const elementNode of elementNodesInSelection) {
+  const elementNodesArray = Array.from(elementNodesInSelection);
+  for (const elementNode of elementNodesArray) {
     if ($isListNode(elementNode)) {
       totalDepth = Math.max($getListDepth(elementNode) + 1, totalDepth);
     } else if ($isListItemNode(elementNode)) {
       const parent = elementNode.getParent();
       if (!$isListNode(parent)) {
         throw new Error(
-          'ListMaxIndentLevelPlugin: A ListItemNode must have a ListNode for a parent.'
+          "ListMaxIndentLevelPlugin: A ListItemNode must have a ListNode for a parent.",
         );
       }
 
@@ -68,7 +69,7 @@ export const EditorListMaxIndentLevelPlugin: React.FC<
     return editor.registerCommand(
       INDENT_CONTENT_COMMAND,
       () => !isIndentPermitted(maxDepth ?? 7),
-      COMMAND_PRIORITY_HIGH
+      COMMAND_PRIORITY_HIGH,
     );
   }, [editor, maxDepth]);
 

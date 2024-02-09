@@ -1,29 +1,29 @@
-import DOMPurify from 'dompurify';
-import { $getRoot, $insertNodes, EditorState, LexicalEditor } from 'lexical';
-import { useLayoutEffect } from 'react';
+import DOMPurify from "dompurify";
+import { $getRoot, $insertNodes, EditorState, LexicalEditor } from "lexical";
+import { useLayoutEffect } from "react";
 
-import { Box, useMultiStyleConfig } from '@chakra-ui/react';
-import { $generateHtmlFromNodes } from '@lexical/html';
-import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
-import { ListPlugin } from '@lexical/react/LexicalListPlugin';
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
+import { Box, useMultiStyleConfig } from "@chakra-ui/react";
+import { $generateHtmlFromNodes } from "@lexical/html";
+import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { ContentEditable } from "@lexical/react/LexicalContentEditable";
+import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
 
-import { defaultThemeStyle } from './Editor.theme';
-import { IEditorProps } from './Editor.types';
-import { transformHTMLtoNodes } from './Editor.utils';
-import { EditorPlaceholder, EditorToolbar } from './components';
+import { defaultThemeStyle } from "./Editor.theme";
+import { IEditorProps } from "./Editor.types";
+import { transformHTMLtoNodes } from "./Editor.utils";
+import { EditorPlaceholder, EditorToolbar } from "./components";
 import {
   EditorAutoLinkPlugin,
   EditorListMaxIndentLevelPlugin,
   EditorTreeViewPlugin,
-} from './plugins';
+} from "./plugins";
 
 export const EditorComponent: React.FC<IEditorProps> = ({
   debug,
@@ -35,7 +35,7 @@ export const EditorComponent: React.FC<IEditorProps> = ({
 }) => {
   const [editor] = useLexicalComposerContext();
 
-  const styles = useMultiStyleConfig('Editor');
+  const styles = useMultiStyleConfig("Editor");
 
   const handleChange = (editorState: EditorState, editor: LexicalEditor) => {
     const raw = editorState.read(() => $generateHtmlFromNodes(editor, null));

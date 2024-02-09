@@ -4,12 +4,12 @@ import {
   LexicalEditor,
   LexicalNode,
   TextNode,
-} from 'lexical';
+} from "lexical";
 
-import { EDITOR_VARIANT } from './Editor.constants';
+import { EDITOR_VARIANT } from "./Editor.constants";
 
 export type NodeSerializerType = (
-  node: ElementNode | TextNode | LexicalNode
+  node: ElementNode | TextNode | LexicalNode,
 ) => string;
 
 export interface IEditorProps {
@@ -26,7 +26,7 @@ export interface IEditorProps {
 
 export type EditorHandleErrorType = (
   error: Error,
-  editor: LexicalEditor
+  editor: LexicalEditor,
 ) => void;
 
 export type Writeable<T extends { [x: string]: any }, K extends string> = {

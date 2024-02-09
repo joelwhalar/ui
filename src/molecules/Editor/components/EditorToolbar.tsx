@@ -7,49 +7,55 @@ import {
   INDENT_CONTENT_COMMAND,
   OUTDENT_CONTENT_COMMAND,
   SELECTION_CHANGE_COMMAND,
-} from 'lexical';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
-import {
-  LinkIcon,
-  TextAlignCenterIcon,
-  TextAlignJustifiedIcon,
-  TextAlignLeftIcon,
-  TextAlignRightIcon,
-  TextBoldIcon,
-  TextIndentLeftIcon,
-  TextIndentRightIcon,
-  TextItalicIcon,
-  TextListIcon,
-  TextListNumberedIcon,
-  TextStyleRemoveIcon,
-} from 'whalar-icons-lib';
+} from "lexical";
 
-import { Box, useDisclosure, useMultiStyleConfig } from '@chakra-ui/react';
-import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+
+import {
+  Box,
+  Icon,
+  useDisclosure,
+  useMultiStyleConfig,
+} from "@chakra-ui/react";
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import {
   $isListNode,
   INSERT_ORDERED_LIST_COMMAND,
   INSERT_UNORDERED_LIST_COMMAND,
   ListNode,
   REMOVE_LIST_COMMAND,
-} from '@lexical/list';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { $isHeadingNode } from '@lexical/rich-text';
-import { $getNearestNodeOfType, mergeRegister } from '@lexical/utils';
+} from "@lexical/list";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { $isHeadingNode } from "@lexical/rich-text";
+import { $getNearestNodeOfType, mergeRegister } from "@lexical/utils";
 
-import { EditorButton, EditorFloatingLink, EditorLinkModal } from '.';
+import { EditorButton, EditorFloatingLink, EditorLinkModal } from ".";
 import {
   EDITOR_LINK_TARGET,
   EDITOR_VARIANT,
   LOW_PRIORITY,
-} from '../Editor.constants';
+} from "../Editor.constants";
 import {
   clearTextFormatting,
   getSelectedNode,
   transformHTMLtoNodes,
-} from '../Editor.utils';
-import { EditorDivider } from './EditorDivider';
+} from "../Editor.utils";
+import { EditorDivider } from "./EditorDivider";
+import { LinkIcon } from "@chakra-ui/icons";
+import {
+  BiAlignJustify,
+  BiAlignLeft,
+  BiAlignMiddle,
+  BiAlignRight,
+  BiBold,
+  BiItalic,
+  BiLeftIndent,
+  BiListOl,
+  BiListUl,
+  BiRightIndent,
+  BiText,
+} from "react-icons/bi";
 
 export interface IEditorToolbarProps {
   variant?: EDITOR_VARIANT[keyof EDITOR_VARIANT];
@@ -58,12 +64,12 @@ export interface IEditorToolbarProps {
 export const EditorToolbar: React.FC<IEditorToolbarProps> = ({
   variant = EDITOR_VARIANT.default,
 }) => {
-  const [blockType, setBlockType] = useState('paragraph');
+  const [blockType, setBlockType] = useState("paragraph");
   const [editor] = useLexicalComposerContext();
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
   const [isLink, setIsLink] = useState(false);
-  const styles = useMultiStyleConfig('Editor', {});
+  const styles = useMultiStyleConfig("Editor", {});
   const toolbarRef = useRef(null);
 
   const {
@@ -78,7 +84,7 @@ export const EditorToolbar: React.FC<IEditorToolbarProps> = ({
     if ($isRangeSelection(selection)) {
       const anchorNode = selection.anchor.getNode();
       const element =
-        anchorNode.getKey() === 'root'
+        anchorNode.getKey() === "root"
           ? anchorNode
           : anchorNode.getTopLevelElementOrThrow();
       const elementKey = element.getKey();
@@ -97,8 +103,8 @@ export const EditorToolbar: React.FC<IEditorToolbarProps> = ({
         }
       }
       // Update text format
-      setIsBold(selection.hasFormat('bold'));
-      setIsItalic(selection.hasFormat('italic'));
+      setIsBold(selection.hasFormat("bold"));
+      setIsItalic(selection.hasFormat("italic"));
 
       // Update links
       const node = getSelectedNode(selection);
@@ -113,7 +119,7 @@ export const EditorToolbar: React.FC<IEditorToolbarProps> = ({
   }, [editor]);
 
   const formatBulletList = () => {
-    if (blockType !== 'ul') {
+    if (blockType !== "ul") {
       editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined);
     } else {
       editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
@@ -121,7 +127,7 @@ export const EditorToolbar: React.FC<IEditorToolbarProps> = ({
   };
 
   const formatNumberedList = () => {
-    if (blockType !== 'ol') {
+    if (blockType !== "ol") {
       editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined);
     } else {
       editor.dispatchCommand(REMOVE_LIST_COMMAND, undefined);
@@ -141,8 +147,8 @@ export const EditorToolbar: React.FC<IEditorToolbarProps> = ({
           updateToolbar();
           return false;
         },
-        LOW_PRIORITY
-      )
+        LOW_PRIORITY,
+      ),
     );
   }, [editor, updateToolbar]);
 
@@ -153,7 +159,7 @@ export const EditorToolbar: React.FC<IEditorToolbarProps> = ({
 
       if (isRangeSelection && !selection?.isCollapsed()) {
         if (!isLink) {
-          editor.dispatchCommand(TOGGLE_LINK_COMMAND, 'https://');
+          editor.dispatchCommand(TOGGLE_LINK_COMMAND, "https://");
         } else {
           editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
         }
@@ -166,12 +172,12 @@ export const EditorToolbar: React.FC<IEditorToolbarProps> = ({
   const handleLinkInsert = (
     url: string,
     text: string,
-    target: EDITOR_LINK_TARGET
+    target: EDITOR_LINK_TARGET,
   ) => {
     editor.update(() => {
       const nodes = transformHTMLtoNodes(
         `<a href="${url}" target="${target}">${text}</a>`,
-        editor
+        editor,
       );
       $insertNodes(nodes);
     });
@@ -211,63 +217,63 @@ export const EditorToolbar: React.FC<IEditorToolbarProps> = ({
         <EditorButton
           aria-label="Format Bold"
           isActive={isBold}
-          icon={<TextBoldIcon boxSize={4} />}
-          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')}
+          icon={<Icon as={BiBold} boxSize={4} />}
+          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
         />
         <EditorButton
           aria-label="Format Italic"
           isActive={isItalic}
-          icon={<TextItalicIcon boxSize={4} />}
-          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')}
+          icon={<Icon as={BiItalic} boxSize={4} />}
+          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
         />
         <EditorDivider />
         <EditorButton
           aria-label="Left Align"
-          icon={<TextAlignLeftIcon boxSize={4} />}
-          onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')}
+          icon={<Icon as={BiAlignLeft} boxSize={4} />}
+          onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left")}
         />
         <EditorButton
           aria-label="Center Align"
-          icon={<TextAlignCenterIcon boxSize={4} />}
+          icon={<Icon as={BiAlignMiddle} boxSize={4} />}
           onClick={() =>
-            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')
+            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center")
           }
         />
         <EditorButton
           aria-label="Right Align"
-          icon={<TextAlignRightIcon boxSize={4} />}
+          icon={<Icon as={BiAlignRight} boxSize={4} />}
           onClick={() =>
-            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')
+            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right")
           }
         />
         <EditorButton
           aria-label="Justify Align"
-          icon={<TextAlignJustifiedIcon boxSize={4} />}
+          icon={<Icon as={BiAlignJustify} boxSize={4} />}
           onClick={() =>
-            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify')
+            editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify")
           }
         />
         <EditorDivider />
         <EditorButton
           aria-label="Format List"
-          icon={<TextListIcon boxSize={4} />}
+          icon={<Icon as={BiListUl} boxSize={4} />}
           onClick={formatBulletList}
         />
         <EditorButton
           aria-label="Format Numbered List"
-          icon={<TextListNumberedIcon boxSize={4} />}
+          icon={<Icon as={BiListOl} boxSize={4} />}
           onClick={formatNumberedList}
         />
         <EditorButton
           aria-label="Outdent"
-          icon={<TextIndentLeftIcon boxSize={4} />}
+          icon={<Icon as={BiLeftIndent} boxSize={4} />}
           onClick={() =>
             editor.dispatchCommand(OUTDENT_CONTENT_COMMAND, undefined)
           }
         />
         <EditorButton
           aria-label="Indent"
-          icon={<TextIndentRightIcon boxSize={4} />}
+          icon={<Icon as={BiRightIndent} boxSize={4} />}
           onClick={() =>
             editor.dispatchCommand(INDENT_CONTENT_COMMAND, undefined)
           }
@@ -275,7 +281,7 @@ export const EditorToolbar: React.FC<IEditorToolbarProps> = ({
         <EditorDivider />
         <EditorButton
           aria-label="Remove Text Formatting"
-          icon={<TextStyleRemoveIcon boxSize={4} />}
+          icon={<Icon as={BiText} boxSize={4} />}
           onClick={() => clearTextFormatting(editor)}
         />
 
@@ -301,19 +307,19 @@ export const EditorToolbar: React.FC<IEditorToolbarProps> = ({
       <EditorButton
         aria-label="Format Bold"
         isActive={isBold}
-        icon={<TextBoldIcon boxSize={4} />}
-        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')}
+        icon={<Icon as={BiBold} boxSize={4} />}
+        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
       />
       <EditorButton
         aria-label="Format Italic"
         isActive={isItalic}
-        icon={<TextItalicIcon boxSize={4} />}
-        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')}
+        icon={<Icon as={BiItalic} boxSize={4} />}
+        onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
       />
       <EditorDivider />
       <EditorButton
         aria-label="Remove Text Formatting"
-        icon={<TextStyleRemoveIcon boxSize={4} />}
+        icon={<Icon as={BiText} boxSize={4} />}
         onClick={() => clearTextFormatting(editor)}
       />
 

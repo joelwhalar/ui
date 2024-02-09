@@ -1,15 +1,15 @@
-import { LexicalEditor } from 'lexical';
+import { LexicalEditor } from "lexical";
 
-import { LexicalComposer } from '@lexical/react/LexicalComposer';
+import { LexicalComposer } from "@lexical/react/LexicalComposer";
 
-import { EditorComponent } from './Editor.component';
-import { EDITOR_DETAULT_CONFIG } from './Editor.constants';
-import { defaultTheme } from './Editor.theme';
-import { IEditorProps } from './Editor.types';
+import { EditorComponent } from "./Editor.component";
+import { EDITOR_DETAULT_CONFIG } from "./Editor.constants";
+import { defaultTheme } from "./Editor.theme";
+import { IEditorProps } from "./Editor.types";
 
-export const RichEditor: React.FC<IEditorProps> = (props) => {
+export const Editor: React.FC<IEditorProps> = (props) => {
   const {
-    namespace = 'editor',
+    namespace = "editor",
     onError: onErrorCustom,
     theme = defaultTheme,
   } = props;

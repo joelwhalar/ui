@@ -4,17 +4,18 @@ import {
   BaseSelection,
   LexicalEditor,
   SELECTION_CHANGE_COMMAND,
-} from 'lexical';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { CheckmarkIcon, CloseIcon } from 'whalar-icons-lib';
+} from "lexical";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-import { Box, Input, useMultiStyleConfig } from '@chakra-ui/react';
-import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
-import { mergeRegister } from '@lexical/utils';
+import { Box, Icon, Input, useMultiStyleConfig } from "@chakra-ui/react";
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
+import { mergeRegister } from "@lexical/utils";
 
-import { LOW_PRIORITY } from '../Editor.constants';
-import { getSelectedNode, positionEditorElement } from '../Editor.utils';
-import { EditorButton } from './EditorButton';
+import { LOW_PRIORITY } from "../Editor.constants";
+import { getSelectedNode, positionEditorElement } from "../Editor.utils";
+import { EditorButton } from "./EditorButton";
+import { CloseIcon } from "@chakra-ui/icons";
+import { BiCheck } from "react-icons/bi";
 
 export interface IEditorFloatingLinkProps {
   editor: LexicalEditor;
@@ -24,14 +25,14 @@ export const EditorFloatingLink: React.FC<IEditorFloatingLinkProps> = ({
   editor,
 }) => {
   const [lastSelection, setLastSelection] = useState<BaseSelection | null>(
-    null
+    null,
   );
-  const [linkUrl, setLinkUrl] = useState('');
+  const [linkUrl, setLinkUrl] = useState("");
   const editorRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const mouseDownRef = useRef(false);
 
-  const styles = useMultiStyleConfig('Editor');
+  const styles = useMultiStyleConfig("Editor");
 
   const updateLinkEditor = useCallback(() => {
     const selection = $getSelection();
@@ -44,7 +45,7 @@ export const EditorFloatingLink: React.FC<IEditorFloatingLinkProps> = ({
       } else if ($isLinkNode(node)) {
         setLinkUrl(node.getURL());
       } else {
-        setLinkUrl('');
+        setLinkUrl("");
       }
     }
     const editorElem = editorRef.current;
@@ -65,25 +66,14 @@ export const EditorFloatingLink: React.FC<IEditorFloatingLinkProps> = ({
       rootElement.contains(nativeSelection.anchorNode)
     ) {
       const domRange = nativeSelection?.getRangeAt(0);
-      let rect;
-      if (nativeSelection.anchorNode === rootElement) {
-        let inner = rootElement;
-        while (inner.firstElementChild != null) {
-          inner = inner.firstElementChild as HTMLElement;
-        }
-        rect = inner.getBoundingClientRect();
-      } else {
-        rect = domRange.getBoundingClientRect();
-      }
-
       if (!mouseDownRef.current) {
         positionEditorElement(domRange, editorElem);
       }
       setLastSelection(selection);
-    } else if (!activeElement || activeElement.className !== 'link-input') {
+    } else if (!activeElement || activeElement.className !== "link-input") {
       positionEditorElement(null, editorElem);
       setLastSelection(null);
-      setLinkUrl('');
+      setLinkUrl("");
     }
 
     return true;
@@ -103,8 +93,8 @@ export const EditorFloatingLink: React.FC<IEditorFloatingLinkProps> = ({
           updateLinkEditor();
           return true;
         },
-        LOW_PRIORITY
-      )
+        LOW_PRIORITY,
+      ),
     );
   }, [editor, updateLinkEditor]);
 
@@ -119,10 +109,10 @@ export const EditorFloatingLink: React.FC<IEditorFloatingLinkProps> = ({
   };
 
   const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       event.preventDefault();
       if (lastSelection !== null) {
-        if (linkUrl !== '') {
+        if (linkUrl !== "") {
           editor.dispatchCommand(TOGGLE_LINK_COMMAND, linkUrl);
         }
       }
@@ -135,7 +125,7 @@ export const EditorFloatingLink: React.FC<IEditorFloatingLinkProps> = ({
 
   const handleSave = () => {
     if (lastSelection !== null) {
-      if (linkUrl !== '') {
+      if (linkUrl !== "") {
         editor.dispatchCommand(TOGGLE_LINK_COMMAND, linkUrl);
       }
     }
@@ -157,7 +147,7 @@ export const EditorFloatingLink: React.FC<IEditorFloatingLinkProps> = ({
       />
       <EditorButton
         aria-label="Save"
-        icon={<CheckmarkIcon boxSize={4} />}
+        icon={<Icon as={BiCheck} boxSize={4} />}
         onClick={handleSave}
       />
     </Box>
