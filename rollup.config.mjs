@@ -1,30 +1,32 @@
+import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
-import typescript from "@rollup/plugin-typescript";
+import { terser } from "rollup-plugin-terser";
+import typescript from "rollup-plugin-typescript2";
 
 const config = {
   input: ["./src/index.ts"],
+  preserveModules: true,
   output: [
     {
-      file: "build/index.cjs.js",
+      dir: "./dist/cjs/",
       format: "cjs",
       sourcemap: true,
+      exports: "auto",
     },
     {
-      file: "build/index.esm.js",
+      dir: "./dist/esm/",
       format: "esm",
       sourcemap: true,
+      exports: "auto",
     },
   ],
   plugins: [
+    peerDepsExternal(),
     resolve(),
     commonjs(),
-    typescript({
-      tsconfig: "./tsconfig.json",
-      declaration: true,
-      declarationDir: "build",
-      exclude: ["**/*.test.*", "**/*.stories.*", "./src/test-utils/*"],
-    }),
+    typescript({ useTsconfigDeclarationDir: true }),
+    terser(),
   ],
   external: ["react", "react-dom"],
 };

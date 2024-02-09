@@ -3,6 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@chakra-ui/react": "^2.8.2",
+    "@chakra-ui/styled-system": "^2.9.2",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@floating-ui/react": "^0.26.9",
+    "@lexical/clipboard": "^0.13.1",
+    "@lexical/code": "^0.13.1",
+    "@lexical/html": "^0.13.1",
+    "@lexical/link": "^0.13.1",
+    "@lexical/list": "^0.13.1",
+    "@lexical/markdown": "^0.13.1",
+    "@lexical/react": "^0.13.1",
+    "@lexical/rich-text": "^0.13.1",
+    "@lexical/selection": "^0.13.1",
+    "@lexical/table": "^0.13.1",
+    "@lexical/utils": "^0.13.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -10,17 +26,25 @@
     "@types/node": "^16.18.80",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
+    "dompurify": "^3.0.8",
+    "framer-motion": "^11.0.3",
+    "lexical": "^0.13.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "whalar-icons-lib": "bitbucket:whalar/whalar-icons-lib#1.4.0"
   },
-  "main": "build/index.cjs.js",
-  "module": "build/index.esm.js",
-  "types": "build/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/types/index.d.ts",
+  "type": "module",
+  "files": [
+    "/dist"
+  ],
   "scripts": {
-    "build": "rollup --config"
+    "build": "rm -rf ./dist  && rollup -c"
   },
   "repository": {
     "type": "git",
@@ -48,6 +72,10 @@
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-typescript": "^11.1.6",
-    "rollup": "^4.9.6"
+    "@types/dompurify": "^3.0.5",
+    "rollup": "^4.9.6",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.36.0"
   }
 }
