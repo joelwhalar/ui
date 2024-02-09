@@ -1,8 +1,5 @@
-declare module "@chakra-ui/styled-system";
-
 import {
   createMultiStyleConfigHelpers,
-  cssVar,
   defineStyle,
 } from "@chakra-ui/styled-system";
 
@@ -20,7 +17,6 @@ const { defineMultiStyleConfig, definePartsStyle } =
     "toolbar",
   ]);
 
-const $outline = cssVar("editor-outline");
 
 const baseStyleButton = defineStyle({
   display: "inline-flex",
@@ -30,13 +26,13 @@ const baseStyleButton = defineStyle({
   height: 8,
   borderRadius: "md",
   color: "primary.700",
-  [":hover"]: {
+  ":hover": {
     backgroundColor: "primary.100",
   },
-  [":active"]: {
+  ":active": {
     backgroundColor: "primary.200",
   },
-  ["svg"]: {
+  "svg": {
     color: "primary.700",
   },
 });
@@ -62,7 +58,7 @@ const baseStyleDivider = defineStyle({
   position: "relative",
   width: 4,
   height: 8,
-  ["::before"]: {
+  "::before": {
     position: "absolute",
     top: "50%",
     left: "50%",
@@ -83,29 +79,27 @@ const baseStyleEditable = defineStyle({
   tabSize: 1,
   outline: 0,
   paddingX: 4,
-  ["a"]: {
+  "a": {
     color: "link.default",
     textDecoration: "underline",
   },
-  ["p"]: {
+  "p": {
     marginY: 4,
   },
-  ["ul, ol"]: {
+  "ul, ol": {
     marginLeft: 4,
   },
 });
 
 const baseStyleEditor = defineStyle({
-  [$outline.variable]: "colors.secondary.50",
   overflow: "hidden",
   width: "100%",
   borderColor: "primary.100",
   borderWidth: 1,
   borderStyle: "solid",
   borderRadius: "md",
-  [":focus-within"]: {
+  ":focus-within": {
     borderColor: "secondary.500",
-    boxShadow: `0 0 0 4px ${$outline.reference}`,
   },
 });
 
@@ -113,13 +107,13 @@ const baseStyleLinkPopover = defineStyle({
   display: "flex",
   alignItems: "center",
   paddingX: 1,
-  ["input"]: {
+  "input": {
     flex: 1,
     height: 10,
     paddingX: 1,
     color: "primary.700",
     fontWeight: 400,
-    ["&:focus"]: {
+    "&:focus": {
       outline: "none",
     },
   },
@@ -148,7 +142,7 @@ const baseStylePopover = defineStyle({
   backgroundColor: "white",
   boxShadow: "100",
   borderRadius: "md",
-  ['&[data-placement="top-start"]::before']: {
+  '&[data-placement="top-start"]::before': {
     position: "absolute",
     top: "100%",
     left: 4,
